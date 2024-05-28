@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Deck.hpp"
 namespace blackjack {
     class Game{
         public:
@@ -9,15 +10,14 @@ namespace blackjack {
             void Run();
 
         private:
-            int dealer_hand = 0;
-            int player_hand = 0;
-
-            int dealer_cards = 0;
-            int player_cards = 0;
+            Deck deck;
 
             void DealCards();
             void HandlePlayerTurn();
             void HandleDealerTurn();
             void DetermineWinner();
+            void ResetGame();
+
+            int GetRandomCardValue();
     };
 }

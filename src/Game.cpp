@@ -10,10 +10,7 @@ namespace blackjack {
     }
 
     void Game::Run(){
-        this->DealCards();
-        this->HandlePlayerTurn();
-        this->HandleDealerTurn();
-        this->DetermineWinner();
+        this->deck.Print();
     }
 
     void Game::DealCards(){

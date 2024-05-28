@@ -25,7 +25,7 @@ namespace blackjack {
         std::shuffle(this->cards.begin(), this->cards.end(), std::default_random_engine(seed));
     }
 
-    Card Deck::Draw(){
+    Card Deck::DrawCard(){
         Card card = Card("NA", "NA");
         if(!this->cards.empty()){
            card = this->cards.front();
@@ -35,11 +35,15 @@ namespace blackjack {
     }
 
     void Deck::Initialize(){
-        for(const auto &suit : SUITS){
-            for(const auto &rank : RANKS){
-                Card new_card(suit, rank);
-                cards.push_back(new_card);
+        int deck = 0; 
+        while(deck != NUMBER_OF_DECKS){
+            for(const auto &suit : SUITS){
+                for(const auto &rank : RANKS){
+                    Card new_card(suit, rank);
+                    cards.push_back(new_card);
+                }
             }
+            deck++;
         }
     }
 }

@@ -6,8 +6,10 @@
 */
 
 
-#include <iostream>
+#include "Game.hpp"
+
 int main (int argc, char *argv[]) {
-    std::cout << "Hello World!\n";
+    blackjack::Game game = blackjack::Game();
+    game.Run();
     return 0;
 }

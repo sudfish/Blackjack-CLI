@@ -9,7 +9,7 @@ namespace blackjack {
             Deck();
 
             void Print();
-            Card Draw();
+            Card DrawCard();
 
         private:
             std::vector<Card> cards;
