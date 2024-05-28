@@ -1,3 +1,8 @@
+# Build files
+/.cache
+run.sh
+/build
+
 # Prerequisites
 *.d
 
