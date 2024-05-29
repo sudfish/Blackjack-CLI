@@ -11,7 +11,6 @@ namespace blackjack {
     Deck::Deck(){
         this->Initialize();
         this->Shuffle();
-        this->Print();
     }
 
     void Deck::Print(){

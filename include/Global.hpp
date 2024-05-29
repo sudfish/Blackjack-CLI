@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -13,6 +14,21 @@ const std::vector<std::string> SUITS = {
 const std::vector<std::string> RANKS = {
     "2", "3", "4", "5", "6", "7", "8", "9", "10",
     "Jack", "Queen", "King", "Ace"
+};
+
+const std::map<std::string, int> RANK_TO_NUMBER = {
+    {"2", 2}, 
+    {"3", 3}, 
+    {"4", 4}, 
+    {"5", 5}, 
+    {"6", 6}, 
+    {"7", 7}, 
+    {"8", 8}, 
+    {"9", 9}, 
+    {"10", 10}, 
+    {"Jack", 10}, 
+    {"Queen", 10}, 
+    {"King", 10} 
 };
 
 struct Card{
