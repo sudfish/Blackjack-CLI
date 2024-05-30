@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Global.hpp"
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -14,6 +15,8 @@ namespace blackjack {
             int GetHardPoints();
             int GetSoftPoints();
             std::vector<Card> GetHand();
+            std::string GetStringHand();
+            bool HasBust();
 
         private:
             std::vector<Card> hand;

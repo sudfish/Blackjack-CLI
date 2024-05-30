@@ -1,5 +1,7 @@
 #include "Player.hpp"
 #include "Global.hpp"
+#include <sstream>
+#include <string>
 #include <vector>
 
 namespace blackjack {
@@ -22,8 +24,23 @@ namespace blackjack {
         return this->points.first;
     }
 
+    bool Player::HasBust(){
+        return this->points.first > 21 && this->points.second > 21;
+    }
+
     std::vector<Card> Player::GetHand(){
         return this->hand;
+    }
+
+    std::string Player::GetStringHand(){
+        std::stringstream ss;
+        for (size_t i = 0; i < this->hand.size(); ++i) {
+            ss << hand[i].name;
+            if (i != hand.size() - 1) {
+                ss << ", ";
+            }
+        }
+        return ss.str();
     }
 
     int Player::CalculateHardPoints(){
