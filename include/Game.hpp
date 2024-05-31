@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Deck.hpp"
-#include "Dealer.hpp"
-#include "Player.hpp"
+#include "Participant.hpp"
+
 #include <vector>
 namespace blackjack {
     class Game{

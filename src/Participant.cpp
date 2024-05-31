@@ -1,38 +1,41 @@
-#include "Player.hpp"
-#include "Global.hpp"
-#include <sstream>
-#include <string>
+
+
+#include "Participant.hpp"
 #include <vector>
-
 namespace blackjack {
-    Player::Player(){}
+    Participant::Participant(){}
 
-    void Player::ReceiveCard(Card &card){
+    void Participant::ReceiveCard(Card &card){
         this->hand.push_back(card);
     }
 
-    void Player::CalculatePoints(){
+    void Participant::CalculatePoints(){
         this->points.first = this->CalculateSoftPoints();
         this->points.second = this->CalculateHardPoints();
     }
 
-    int Player::GetHardPoints(){
-        return this->points.second;
-    }
-
-    int Player::GetSoftPoints(){
-        return this->points.first;
-    }
-
-    bool Player::HasBust(){
+    bool Participant::HasBust(){
         return this->points.first > 21 && this->points.second > 21;
     }
 
-    std::vector<Card> Player::GetHand(){
+    int Participant::GetHardPoints(){
+        return this->points.second;
+    }
+
+    int Participant::GetSoftPoints(){
+        return this->points.first;
+    }
+
+    std::vector<Card> Participant::GetHand(){
         return this->hand;
     }
 
-    int Player::CalculateHardPoints(){
+    void Participant::ClearPoints(){
+        this->points.first = 0;
+        this->points.second = 0;
+    }
+
+    int Participant::CalculateHardPoints(){
         int hard_points = 0;
         for(const auto& card : this->hand){
             if(card.rank == "Ace") hard_points++;
@@ -42,7 +45,7 @@ namespace blackjack {
         return hard_points;
     }
 
-    int Player::CalculateSoftPoints(){
+    int Participant::CalculateSoftPoints(){
         int soft_points = 0; int aces = 0;
         for(const auto& card : this->hand){
             if(card.rank == "Ace") {soft_points++; aces++;}
@@ -52,9 +55,17 @@ namespace blackjack {
         if(aces > 0) soft_points += 10;
         return soft_points;
     }
-    
-    void Player::ClearPoints(){
-        this->points.first = 0;
-        this->points.second = 0;
+
+    // ===== PLAYER =====
+
+    Player::Player(){}
+
+
+    // ===== DEALER =====
+
+    Dealer::Dealer(){}
+
+    bool Dealer::HasReachedMax(){
+        return this->points.first > 17 || this->points.second > 17;
     }
 }

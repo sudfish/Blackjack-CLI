@@ -34,13 +34,14 @@ namespace blackjack {
     void Game::HandlePlayerTurn(){
         int choice = 0;
         while(choice != 2 && !this->player.HasBust()){
-            std::cout << "\t ===== Player Turn ====== \n";
+            std::cout << "\n\t===== Player Turn ====== \n";
 
             this->DisplayHand(this->player.GetHand());
             this->DisplayPoints(this->player.GetSoftPoints(), this->player.GetHardPoints());
 
             std::cout << "\t1. Hit\n";
             std::cout << "\t2. Stand\n";
+            std::cout << "\n\tChoice: ";
             std::cin >> choice;
 
             switch (choice) {
@@ -60,7 +61,7 @@ namespace blackjack {
     }
 
     void Game::HandleDealerTurn(){
-        std::cout << "\t===== Dealer Turn =====\n";
+        std::cout << "\n\t===== Dealer Turn =====\n";
 
         this->DisplayHand(this->dealer.GetHand());
         this->DisplayPoints(this->dealer.GetSoftPoints(), this->dealer.GetHardPoints());

@@ -1,28 +1,40 @@
 #pragma once
 
 #include "Global.hpp"
-#include <string>
 #include <utility>
 #include <vector>
 
 namespace blackjack {
-    class Player{
+    class Participant {
         public:
-            Player();
+            Participant();
 
             void ReceiveCard(Card &card);
             void CalculatePoints();
+            bool HasBust();
+
             int GetHardPoints();
             int GetSoftPoints();
             std::vector<Card> GetHand();
-            bool HasBust();
+            void ClearPoints();
 
-        private:
+        protected:
             std::vector<Card> hand;
             std::pair<int, int> points = std::make_pair(0, 0);
 
             int CalculateHardPoints();
             int CalculateSoftPoints();
-            void ClearPoints();
+    };
+
+    class Player : public Participant {
+        public:
+            Player();
+    };
+
+    class Dealer : public Participant {
+        public:
+            Dealer();
+
+            bool HasReachedMax();   // Standing on all 17's
     };
 }
