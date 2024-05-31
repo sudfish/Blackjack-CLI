@@ -134,7 +134,6 @@ namespace blackjack {
     }
 
     void Game::ResetGame(){
-
         std::string in;
         std::cout << "\n\tWould you like to play again? (y/n): ";
         std::cin >> in;
