@@ -1,6 +1,8 @@
 #include "Game.hpp"
 #include <algorithm>
 #include <iostream>
+#include <sstream>
+#include <vector>
 
 namespace blackjack {
     Game::Game(){
@@ -33,17 +35,10 @@ namespace blackjack {
         int choice = 0;
         while(choice != 2 && !this->player.HasBust()){
             std::cout << "\t ===== Player Turn ====== \n";
-            std::cout << "\t" << this->player.GetStringHand() << "\n";
-            if(this->player.GetSoftPoints() != this->player.GetHardPoints()){
-                if(this->player.GetSoftPoints() < 22){
-                    std::cout << "\tSoft: " << this->player.GetSoftPoints() << "\n";
-                }
-                if(this->player.GetHardPoints() < 22){
-                    std::cout << "\tHard: " << this->player.GetHardPoints() << "\n";
-                }
-            } else {
-                std::cout << "\t Points: " << this->player.GetHardPoints() << "\n";
-            }
+
+            this->DisplayHand(this->player.GetHand());
+            this->DisplayPoints(this->player.GetSoftPoints(), this->player.GetHardPoints());
+
             std::cout << "\t1. Hit\n";
             std::cout << "\t2. Stand\n";
             std::cin >> choice;
@@ -66,59 +61,74 @@ namespace blackjack {
 
     void Game::HandleDealerTurn(){
         std::cout << "\t===== Dealer Turn =====\n";
-        std::cout << "\t" << this->dealer.GetStringHand() << "\n";
-        if(this->dealer.GetSoftPoints() != this->dealer.GetHardPoints()){
-            if(this->dealer.GetSoftPoints() < 22){
-                std::cout << "\tSoft: " << this->dealer.GetSoftPoints() << "\n";
-            }
-            if(this->dealer.GetHardPoints() < 22){
-                std::cout << "\tHard: " << this->dealer.GetHardPoints() << "\n";
-            }
-        } else {
-            std::cout << "\t Points: " << this->dealer.GetHardPoints() << "\n";
-        }
+
+        this->DisplayHand(this->dealer.GetHand());
+        this->DisplayPoints(this->dealer.GetSoftPoints(), this->dealer.GetHardPoints());
 
         while(!this->dealer.HasReachedMax()){
             std::cout << "\t===== Dealer Turn =====\n";
-            std::cout << "\t DEALER GETS ANOTHER CARD\n";
+            std::cout << "\t~~ DEALER GETS ANOTHER CARD ~~\n";
             Card card = this->deck.DrawCard();
             this->dealer.ReceiveCard(card);
             this->dealer.CalculatePoints();
-            std::cout << "\t" << this->dealer.GetStringHand() << "\n";
-            if(this->dealer.GetSoftPoints() != this->dealer.GetHardPoints()){
-                if(this->dealer.GetSoftPoints() < 22){
-                    std::cout << "\tSoft: " << this->dealer.GetSoftPoints() << "\n";
-                }
-                if(this->dealer.GetHardPoints() < 22){
-                    std::cout << "\tHard: " << this->dealer.GetHardPoints() << "\n";
-                }
-            } else {
-                std::cout << "\t Points: " << this->dealer.GetHardPoints() << "\n";
-            }
+            this->DisplayHand(this->dealer.GetHand());
+            this->DisplayPoints(this->dealer.GetSoftPoints(), this->dealer.GetHardPoints());
         }
     }
 
     void Game::DetermineWinner(){
-        int max_player_points = std::max(this->player.GetSoftPoints(), this->player.GetHardPoints());
-        int max_dealer_points = std::max(this->dealer.GetSoftPoints(), this->dealer.GetHardPoints());
-        std::cout << "\n\tMax Player Points: " << max_player_points << "\n";
-        std::cout << "\n\tMax Dealer Points: " << max_dealer_points << "\n";
         if(this->player.HasBust()){
-            std::cout << "\n\tDEALER WINS!\n\n";
+            std::cout << "\n\tPlayer busted. Dealer wins!\n\n";
         } else if (this->dealer.HasBust()) {
-            std::cout << "\n\tPLAYER WINS!\n\n"; 
+            std::cout << "\n\tDealer busted. Player wins!\n\n"; 
         } else{
+            int player_hard = this->player.GetHardPoints() > 21 ? 0 : this->player.GetHardPoints();
+            int player_soft = this->player.GetSoftPoints() > 21 ? 0 : this->player.GetSoftPoints();
+            int max_player_points = std::max(player_soft, player_hard);
+
+            int dealer_hard = this->dealer.GetHardPoints() > 21 ? 0 : this->dealer.GetHardPoints();
+            int dealer_soft = this->dealer.GetSoftPoints() > 21 ? 0 : this->dealer.GetSoftPoints();
+            int max_dealer_points = std::max(dealer_soft, dealer_hard);
+
+            std::cout << "\tPlayer Points: " << max_player_points << "\n";
+            std::cout << "\tDealer Points: " << max_dealer_points << "\n";
             if(max_player_points > max_dealer_points){
-                std::cout << "\n\tPLAYER WINS!\n\n";
+                std::cout << "\n\tPlayer wins!\n\n";
             } else if (max_dealer_points > max_player_points){
-                std::cout << "\n\tDEALER WINS!\n\n";
+                std::cout << "\n\tDealer wins!\n\n";
             } else {
-                std::cout << "\n\tPUSH - NOBODY WINS!\n\n";
+                std::cout << "\n\tPush - Nobody wins.\n\n";
             }
         }
     }
 
     void Game::ResetGame(){
 
+    }
+
+    void Game::DisplayHand(std::vector<Card> hand){
+        std::stringstream ss;
+        ss << "\tCards: \n";
+        for (size_t i = 0; i < hand.size(); ++i) {
+            ss << "\t\t{" << hand[i].name << "}\n";
+        }
+        ss << "\n";
+        std::cout << ss.str();
+    }
+
+    void Game::DisplayPoints(int soft, int hard){
+        std::stringstream ss;
+        ss << "\tPoints: ";
+        if(soft != hard){
+            if(soft < 22 && hard < 22){
+                ss << soft << " OR " << hard;
+            } else {
+                if(soft < 22) ss << soft;
+                if(hard < 22) ss << hard;
+            }
+        } else ss << hard;
+        
+        ss << "\n\n";
+        std::cout << ss.str();
     }
 }

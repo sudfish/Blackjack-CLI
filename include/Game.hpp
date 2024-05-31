@@ -3,6 +3,7 @@
 #include "Deck.hpp"
 #include "Dealer.hpp"
 #include "Player.hpp"
+#include <vector>
 namespace blackjack {
     class Game{
         public:
@@ -22,6 +23,9 @@ namespace blackjack {
             void HandleDealerTurn();
             void DetermineWinner();
             void ResetGame();
+
+            void DisplayHand(std::vector<Card> hand);
+            void DisplayPoints(int soft, int hard);
 
             int GetRandomCardValue();
     };

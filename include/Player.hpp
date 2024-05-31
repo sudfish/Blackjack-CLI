@@ -15,7 +15,6 @@ namespace blackjack {
             int GetHardPoints();
             int GetSoftPoints();
             std::vector<Card> GetHand();
-            std::string GetStringHand();
             bool HasBust();
 
         private:

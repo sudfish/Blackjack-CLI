@@ -37,16 +37,6 @@ namespace blackjack {
         return this->hand;
     }
 
-    std::string Dealer::GetStringHand(){
-        std::stringstream ss;
-        for (size_t i = 0; i < this->hand.size(); ++i) {
-            ss << hand[i].name;
-            if (i != hand.size() - 1) {
-                ss << ", ";
-            }
-        }
-        return ss.str();
-    }
 
     int Dealer::CalculateHardPoints(){
         int hard_points = 0;
