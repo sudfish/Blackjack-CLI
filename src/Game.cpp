@@ -1,23 +1,45 @@
 #include "Game.hpp"
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <string>
 #include <vector>
 
 namespace blackjack {
     Game::Game(){
-
+        this->ClearTerminal();
+        this->Introduction();
     }
 
-    Game::~Game(){
+    Game::~Game(){}
 
+    void Game::Introduction(){
+        std::cout << "\n\n\n"; 
+        std::cout << "\t==================================" << std::endl;
+        std::cout << "\t         Welcome to Blackjack!    " << std::endl;
+        std::cout << "\t==================================" << std::endl;
+        std::cout << "\tTest your luck and skill!" << std::endl;
+        std::cout << std::endl;
+    } 
+
+    void Game::ClearTerminal(){
+        #ifdef _WIN32
+            std::system("cls");
+        #else
+            std::system("clear");
+        #endif
     }
+
 
     void Game::Run(){
-        this->DealCards();
-        this->HandlePlayerTurn();
-        this->HandleDealerTurn();
-        this->DetermineWinner();
+        while (this->running) {
+            this->DealCards();
+            this->HandlePlayerTurn();
+            this->HandleDealerTurn();
+            this->DetermineWinner();
+            this->ResetGame();
+        }
     }
 
     void Game::DealCards(){
@@ -29,6 +51,14 @@ namespace blackjack {
         }
         this->player.CalculatePoints();
         this->dealer.CalculatePoints();
+
+        std::cout << "\tCards have been dealt.\n\n";
+
+        std::cout << "\tDealer: \n";
+        this->DisplayHand(this->dealer.GetFirstCard());
+
+        std::cout << "\tPlayer: \n";
+        this->DisplayHand(this->player.GetHand());
     }
 
     void Game::HandlePlayerTurn(){
@@ -105,6 +135,15 @@ namespace blackjack {
 
     void Game::ResetGame(){
 
+        std::string in;
+        std::cout << "\n\tWould you like to play again? (y/n): ";
+        std::cin >> in;
+        this->running = in == "y" ? true : false;
+
+        this->player.ClearPoints(); 
+        this->player.ClearHand();
+        this->dealer.ClearPoints();
+        this->dealer.ClearHand();
     }
 
     void Game::DisplayHand(std::vector<Card> hand){

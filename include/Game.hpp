@@ -13,10 +13,15 @@ namespace blackjack {
             void Run();
 
         private:
+            bool running = true;
+
             Deck deck;
 
             Dealer dealer;
             Player player;
+
+            void Introduction();
+            void ClearTerminal();
 
             void DealCards();
             void HandlePlayerTurn();

@@ -35,6 +35,10 @@ namespace blackjack {
         this->points.second = 0;
     }
 
+    void Participant::ClearHand(){
+        this->hand.clear();
+    }
+
     int Participant::CalculateHardPoints(){
         int hard_points = 0;
         for(const auto& card : this->hand){
@@ -64,6 +68,12 @@ namespace blackjack {
     // ===== DEALER =====
 
     Dealer::Dealer(){}
+
+    std::vector<Card> Dealer::GetFirstCard(){
+        std::vector<Card> vec;
+        vec.push_back(this->hand[0]);
+        return vec;
+    }
 
     bool Dealer::HasReachedMax(){
         return this->points.first > 17 || this->points.second > 17;

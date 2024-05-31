@@ -18,6 +18,8 @@ namespace blackjack {
             std::vector<Card> GetHand();
             void ClearPoints();
 
+            void ClearHand();
+
         protected:
             std::vector<Card> hand;
             std::pair<int, int> points = std::make_pair(0, 0);
@@ -35,6 +37,7 @@ namespace blackjack {
         public:
             Dealer();
 
+            std::vector<Card> GetFirstCard();
             bool HasReachedMax();   // Standing on all 17's
     };
 }
