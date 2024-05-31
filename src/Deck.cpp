@@ -24,6 +24,12 @@ namespace blackjack {
         return this->cards;
     }
 
+    void Deck::PutCards(std::vector<Card> cards){
+        for(const auto &card : cards){
+            this->cards.push_back(card);
+        }
+    }
+
     void Deck::Shuffle(){
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::shuffle(this->cards.begin(), this->cards.end(), std::default_random_engine(seed));

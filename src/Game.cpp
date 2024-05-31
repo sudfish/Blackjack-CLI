@@ -35,16 +35,12 @@ namespace blackjack {
 
     void Game::Run(){
         while (this->running) {
-            // if(this->deck.GetCards().size() < 20){
-            //     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-            //     std::shuffle(this->bin.begin(), this->bin.end(), std::default_random_engine(seed));
-            //     this->deck.GetCards().insert(
-            //         this->deck.GetCards().end(),
-            //         this->bin.begin(),
-            //         this->bin.end()
-            //     );
-            //     this->bin.clear();
-            // }
+            if(this->deck.GetCards().size() < 20){
+                unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+                std::shuffle(this->bin.begin(), this->bin.end(), std::default_random_engine(seed));
+                this->deck.PutCards(this->bin);
+                this->bin.clear();
+            }
             std::cout << "\n\tDeck Size: ";
             std::cout << this->deck.GetCards().size();
             this->DealCards();
@@ -53,7 +49,6 @@ namespace blackjack {
             this->DetermineWinner();
             this->ResetGame();
             this->ClearTerminal();
-            this->DisplayHand(this->bin);
         }
     }
 
@@ -168,8 +163,8 @@ namespace blackjack {
         this->dealer.ClearPoints();
         std::vector<Card> dealer_hand = this->dealer.ClearHand();
 
-        this->bin.insert(this->bin.end(), player_hand.begin(), player_hand.end());
-        this->bin.insert(this->bin.end(), dealer_hand.begin(), dealer_hand.end());
+        this->bin.insert(this->bin.end(), player_hand.begin(), player_hand.end()); 
+        this->bin.insert(this->bin.end(), dealer_hand.begin(), dealer_hand.end()); 
     }
 
     void Game::DisplayHand(std::vector<Card> hand){
