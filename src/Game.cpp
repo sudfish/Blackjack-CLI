@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <algorithm>
 #include <iostream>
 
 namespace blackjack {
@@ -13,6 +14,8 @@ namespace blackjack {
     void Game::Run(){
         this->DealCards();
         this->HandlePlayerTurn();
+        this->HandleDealerTurn();
+        this->DetermineWinner();
     }
 
     void Game::DealCards(){
@@ -23,6 +26,7 @@ namespace blackjack {
             this->dealer.ReceiveCard(dealer_card);
         }
         this->player.CalculatePoints();
+        this->dealer.CalculatePoints();
     }
 
     void Game::HandlePlayerTurn(){
@@ -61,11 +65,57 @@ namespace blackjack {
     }
 
     void Game::HandleDealerTurn(){
+        std::cout << "\t===== Dealer Turn =====\n";
+        std::cout << "\t" << this->dealer.GetStringHand() << "\n";
+        if(this->dealer.GetSoftPoints() != this->dealer.GetHardPoints()){
+            if(this->dealer.GetSoftPoints() < 22){
+                std::cout << "\tSoft: " << this->dealer.GetSoftPoints() << "\n";
+            }
+            if(this->dealer.GetHardPoints() < 22){
+                std::cout << "\tHard: " << this->dealer.GetHardPoints() << "\n";
+            }
+        } else {
+            std::cout << "\t Points: " << this->dealer.GetHardPoints() << "\n";
+        }
 
+        while(!this->dealer.HasReachedMax()){
+            std::cout << "\t===== Dealer Turn =====\n";
+            std::cout << "\t DEALER GETS ANOTHER CARD\n";
+            Card card = this->deck.DrawCard();
+            this->dealer.ReceiveCard(card);
+            this->dealer.CalculatePoints();
+            std::cout << "\t" << this->dealer.GetStringHand() << "\n";
+            if(this->dealer.GetSoftPoints() != this->dealer.GetHardPoints()){
+                if(this->dealer.GetSoftPoints() < 22){
+                    std::cout << "\tSoft: " << this->dealer.GetSoftPoints() << "\n";
+                }
+                if(this->dealer.GetHardPoints() < 22){
+                    std::cout << "\tHard: " << this->dealer.GetHardPoints() << "\n";
+                }
+            } else {
+                std::cout << "\t Points: " << this->dealer.GetHardPoints() << "\n";
+            }
+        }
     }
 
     void Game::DetermineWinner(){
-
+        int max_player_points = std::max(this->player.GetSoftPoints(), this->player.GetHardPoints());
+        int max_dealer_points = std::max(this->dealer.GetSoftPoints(), this->dealer.GetHardPoints());
+        std::cout << "\n\tMax Player Points: " << max_player_points << "\n";
+        std::cout << "\n\tMax Dealer Points: " << max_dealer_points << "\n";
+        if(this->player.HasBust()){
+            std::cout << "\n\tDEALER WINS!\n\n";
+        } else if (this->dealer.HasBust()) {
+            std::cout << "\n\tPLAYER WINS!\n\n"; 
+        } else{
+            if(max_player_points > max_dealer_points){
+                std::cout << "\n\tPLAYER WINS!\n\n";
+            } else if (max_dealer_points > max_player_points){
+                std::cout << "\n\tDEALER WINS!\n\n";
+            } else {
+                std::cout << "\n\tPUSH - NOBODY WINS!\n\n";
+            }
+        }
     }
 
     void Game::ResetGame(){

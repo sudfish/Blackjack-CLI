@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Deck.hpp"
+#include "Dealer.hpp"
 #include "Player.hpp"
 namespace blackjack {
     class Game{
@@ -13,7 +14,7 @@ namespace blackjack {
         private:
             Deck deck;
 
-            Player dealer;
+            Dealer dealer;
             Player player;
 
             void DealCards();
