@@ -35,8 +35,11 @@ namespace blackjack {
         this->points.second = 0;
     }
 
-    void Participant::ClearHand(){
+    std::vector<Card> Participant::ClearHand(){
+        std::vector<Card> vec;
+        vec = this->hand;
         this->hand.clear();
+        return vec;
     }
 
     int Participant::CalculateHardPoints(){
@@ -64,6 +67,9 @@ namespace blackjack {
 
     Player::Player(){}
 
+    bool Player::HasBlackJack(){
+        return this->GetSoftPoints() == 21; 
+    }
 
     // ===== DEALER =====
 

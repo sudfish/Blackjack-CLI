@@ -16,6 +16,7 @@ namespace blackjack {
             bool running = true;
 
             Deck deck;
+            std::vector<Card> bin;
 
             Dealer dealer;
             Player player;

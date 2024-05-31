@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Global.hpp"
+#include <vector>
 
 namespace blackjack {
 
@@ -10,6 +11,7 @@ namespace blackjack {
 
             void Print();
             Card DrawCard();
+            std::vector<Card> GetCards();
 
         private:
             std::vector<Card> cards;

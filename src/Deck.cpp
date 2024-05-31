@@ -6,6 +6,7 @@
 #include <chrono>
 #include <iostream>
 #include <random>
+#include <vector>
 
 namespace blackjack {
     Deck::Deck(){
@@ -17,6 +18,10 @@ namespace blackjack {
         for(const auto &card : this->cards){
             std::cout << "{" << card.name << "}\n";
         }
+    }
+
+    std::vector<Card> Deck::GetCards(){
+        return this->cards;
     }
 
     void Deck::Shuffle(){

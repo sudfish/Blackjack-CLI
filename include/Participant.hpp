@@ -18,7 +18,7 @@ namespace blackjack {
             std::vector<Card> GetHand();
             void ClearPoints();
 
-            void ClearHand();
+            std::vector<Card> ClearHand();
 
         protected:
             std::vector<Card> hand;
@@ -31,6 +31,8 @@ namespace blackjack {
     class Player : public Participant {
         public:
             Player();
+
+            bool HasBlackJack();
     };
 
     class Dealer : public Participant {

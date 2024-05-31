@@ -1,7 +1,9 @@
 #include "Game.hpp"
+#include <chrono>
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -31,14 +33,27 @@ namespace blackjack {
         #endif
     }
 
-
     void Game::Run(){
         while (this->running) {
+            // if(this->deck.GetCards().size() < 20){
+            //     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+            //     std::shuffle(this->bin.begin(), this->bin.end(), std::default_random_engine(seed));
+            //     this->deck.GetCards().insert(
+            //         this->deck.GetCards().end(),
+            //         this->bin.begin(),
+            //         this->bin.end()
+            //     );
+            //     this->bin.clear();
+            // }
+            std::cout << "\n\tDeck Size: ";
+            std::cout << this->deck.GetCards().size();
             this->DealCards();
             this->HandlePlayerTurn();
             this->HandleDealerTurn();
             this->DetermineWinner();
             this->ResetGame();
+            this->ClearTerminal();
+            this->DisplayHand(this->bin);
         }
     }
 
@@ -52,7 +67,7 @@ namespace blackjack {
         this->player.CalculatePoints();
         this->dealer.CalculatePoints();
 
-        std::cout << "\tCards have been dealt.\n\n";
+        std::cout << "\n\tCards have been dealt.\n\n";
 
         std::cout << "\tDealer: \n";
         this->DisplayHand(this->dealer.GetFirstCard());
@@ -62,12 +77,18 @@ namespace blackjack {
     }
 
     void Game::HandlePlayerTurn(){
+        std::cout << "\n\t===== Player Turn ====== \n";
+
+        this->DisplayHand(this->player.GetHand());
+        this->DisplayPoints(this->player.GetSoftPoints(), this->player.GetHardPoints());
+
+        if(this->player.HasBlackJack()){
+            std::cout << "\n\t#!#!#! BLACK JACK !#!#!#\n\n";
+            return;
+        }
+
         int choice = 0;
         while(choice != 2 && !this->player.HasBust()){
-            std::cout << "\n\t===== Player Turn ====== \n";
-
-            this->DisplayHand(this->player.GetHand());
-            this->DisplayPoints(this->player.GetSoftPoints(), this->player.GetHardPoints());
 
             std::cout << "\t1. Hit\n";
             std::cout << "\t2. Stand\n";
@@ -87,6 +108,9 @@ namespace blackjack {
                 default:
                     break;
             }
+
+            this->DisplayHand(this->player.GetHand());
+            this->DisplayPoints(this->player.GetSoftPoints(), this->player.GetHardPoints());
         }
     }
 
@@ -140,9 +164,12 @@ namespace blackjack {
         this->running = in == "y" ? true : false;
 
         this->player.ClearPoints(); 
-        this->player.ClearHand();
+        std::vector<Card> player_hand = this->player.ClearHand();
         this->dealer.ClearPoints();
-        this->dealer.ClearHand();
+        std::vector<Card> dealer_hand = this->dealer.ClearHand();
+
+        this->bin.insert(this->bin.end(), player_hand.begin(), player_hand.end());
+        this->bin.insert(this->bin.end(), dealer_hand.begin(), dealer_hand.end());
     }
 
     void Game::DisplayHand(std::vector<Card> hand){
