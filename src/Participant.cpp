@@ -1,7 +1,6 @@
-
-
 #include "Participant.hpp"
 #include <vector>
+
 namespace blackjack {
     Participant::Participant(){}
 

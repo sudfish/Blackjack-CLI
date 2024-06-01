@@ -1,5 +1,3 @@
-
-
 #include "Deck.hpp"
 #include "Global.hpp"
 #include <algorithm>

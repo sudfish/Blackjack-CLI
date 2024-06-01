@@ -1,8 +1,8 @@
 /*
- * Black Jack game implementation directly through the terminal.
+ * Black Jack game implementation directly through the CLI.
  * Created by @sudfish 
  * Start Date - 2024-05-27
- * End Date - 
+ * End Date - 2024-05-31 
 */
 
 
