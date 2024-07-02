@@ -1,4 +1,4 @@
-# Black-Jack ♠️  ♥️  ♣️  ♦️
+# Blackjack CLI ♠️  ♥️  ♣️  ♦️
 
 Command-line based version of the classic BlackJack card game, where the player
 competes against the dealer to get a hand value as close to 21 as possible
